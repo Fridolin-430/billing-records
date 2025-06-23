@@ -1,3 +1,6 @@
+terraform init
+terraform apply
+
 provider "azurerm" {
   features {}
 }

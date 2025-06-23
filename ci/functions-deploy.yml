@@ -1,0 +1,28 @@
+name: Deploy Azure Functions
+
+on:
+  push:
+    paths:
+      - src/**
+      - .github/workflows/functions-deploy.yml
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Azure CLI
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Publish Billing API Function
+        run: |
+          cd src/BillingApi
+          func azure functionapp publish <billing-api-app-name>
+
+      - name: Publish Archiver Function
+        run: |
+          cd src/ArchiveDurable
+          func azure functionapp publish <archive-function-app-name>
